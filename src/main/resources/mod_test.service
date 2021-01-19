@@ -1,0 +1,11 @@
+[Unit]
+Description=module users tests
+
+[Service]
+User=hs
+ExecStart=java -jar/opt/mod_test/mod_test-0.1 --spring.config.location=/opt/config/mod_test.properties >> /opt/mod_test/logs/console.out
+ExecStop=curl -X POST localhost:8087/shutdown
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
