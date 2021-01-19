@@ -33,11 +33,7 @@ public class QuestionController {
     @PutMapping("/{id}")
     public Question update(@RequestBody Question newQuestion,
                            @PathVariable String id) {
-        Optional<Question> old = questionRepo.findById(id);
-        if (old.isEmpty()) {
-            throw new RestClientException("Отсутствует вопрос с id: " + id);
-        }
-        Question oldQuestion = old.get();
+        Question oldQuestion = questionRepo.findById(id).get();
 
         if (newQuestion.getActive() != null) {
             oldQuestion.setActive(newQuestion.getActive());

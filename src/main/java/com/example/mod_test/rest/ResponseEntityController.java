@@ -1,5 +1,6 @@
 package com.example.mod_test.rest;
 
+import com.example.mod_test.entity.Question;
 import com.example.mod_test.entity.ResponseEntity;
 import com.example.mod_test.repo.QuestionRepo;
 import com.example.mod_test.repo.ResponseEntityRepo;
@@ -28,9 +29,7 @@ public class ResponseEntityController {
 
     @PostMapping
     public ResponseEntity create(@RequestBody ResponseEntity entity) {
-        if (questionRepo.findById(entity.getQuestionId()).isEmpty()) {
-            throw new RestClientException("Отсутствует вопрос с id: " + entity.getQuestionId());
-        }
+        Question question = questionRepo.findById(entity.getQuestionId()).get();
         entity.setCreated(LocalDateTime.now());
         entity.setActive(true);
 
@@ -39,11 +38,7 @@ public class ResponseEntityController {
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
-        Optional<ResponseEntity> old = responseEntityRepo.findById(id);
-        if (old.isEmpty()) {
-            throw new RestClientException("Отсутствует ответ с id: " + id);
-        }
-        ResponseEntity entity = old.get();
+        ResponseEntity entity = responseEntityRepo.findById(id).get();
         entity.setActive(false);
         responseEntityRepo.save(entity);
     }
