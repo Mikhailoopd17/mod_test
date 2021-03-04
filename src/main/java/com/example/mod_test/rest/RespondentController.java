@@ -1,11 +1,15 @@
 package com.example.mod_test.rest;
 
+import com.example.commons.users.UserProfile;
 import com.example.mod_test.entity.Respondent;
 import com.example.mod_test.repo.RespondentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.example.mod_test.ModTestApplication.USER_PROFILE;
 
 @RestController
 @RequestMapping(value = "${web.prefix}/respondents", produces = "application/json; charset=UTF-8")
@@ -18,7 +22,8 @@ public class RespondentController {
     }
 
     @GetMapping
-    public List<Respondent> list () {
+    public List<Respondent> list (@RequestHeader(value = USER_PROFILE, required = false) UserProfile user) {
+
         return respondentRepo.findAll();
     }
 
@@ -41,5 +46,9 @@ public class RespondentController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable String id) {
         respondentRepo.deleteById(id);
+    }
+
+    private void checkStatus(String token) {
+
     }
  }

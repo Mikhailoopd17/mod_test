@@ -1,7 +1,7 @@
 package com.example.mod_test.service;
 
-import com.example.mod_test.entity.Question;
-import com.example.mod_test.entity.ResponseEntity;
+import com.example.mod_test.dto.ResponseEntityDTO;
+import com.example.mod_test.entity.*;
 import com.example.mod_test.repo.QuestionRepo;
 import com.example.mod_test.repo.ResponseEntityRepo;
 import lombok.AllArgsConstructor;
@@ -22,10 +22,15 @@ public class MappingService {
 
     @PostConstruct
     public void init() {
-//        Converter<String, Question> questionConverter =
-//                mappingContext -> map(questionRepo.findById(mappingContext.getSource()).get(), Question.class);
-//        modelMapper.typeMap(ResponseEntity.class, MessageListDto.class)
-//                .addMappings(mapping -> mapping.using(questionConverter).map(ResponseEntity::getQuestionId, MessageListDto::setSender));
+
+        /*
+         * mapping ResponseEntity.class to ResponseEntityDTO.class for questions
+         */
+        Converter<String, String> questionConverter =
+                mappingContext -> map(questionRepo.findById(mappingContext.getSource()).get().getQuestion(), String.class);
+        modelMapper.typeMap(ResponseEntity.class, ResponseEntityDTO.class)
+                .addMappings(mapping -> mapping.using(questionConverter).map(ResponseEntity::getQuestionId, ResponseEntityDTO::setQuestion));
+
     }
 
     public <S, D> D map(S source, Class<D> clazz) {
@@ -40,5 +45,13 @@ public class MappingService {
         return sources.stream()
                 .map(s -> map(s, clazz))
                 .collect(Collectors.toList());
+    }
+
+    public <S extends BaseImpl, D extends BaseImpl, R> D mapObject(S source, Class<D> main, Class<R> nested) {
+        D dto = map(source, main);
+        if (!source.getEntryIds().isEmpty()) {
+            dto.setEntryList(mapList(responseEntityRepo.findAllByIds(source.getEntryIds()), nested));
+        }
+        return dto;
     }
 }

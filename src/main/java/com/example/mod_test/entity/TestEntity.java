@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 public class TestEntity extends BaseClass {
-    private String respondent;
-    private List<String> responseEntityIds;
+    private String respondentId;
+    private String testListId;
 }
