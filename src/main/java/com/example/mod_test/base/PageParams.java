@@ -11,6 +11,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class PageParams<T> implements Serializable {
     private int pageSize = 20;
-    private int page = 1;
+    private int page = 0;
     private T params;
 }

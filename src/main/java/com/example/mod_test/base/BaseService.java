@@ -43,7 +43,7 @@ public class BaseService<T extends BaseClass, R extends BaseRepository, P extend
         long count = mongoTemplate.count(query, tClass);
 
         query.limit(params.getPageSize());
-        query.skip(params.getPage() > 1 ? (params.getPage() - 1) * params.getPageSize() : 0);
+        query.skip(params.getPage() * params.getPageSize());
 
         List<T> list = mongoTemplate.find(query, tClass);
 
