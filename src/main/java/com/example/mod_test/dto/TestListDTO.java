@@ -1,6 +1,6 @@
 package com.example.mod_test.dto;
 
-import com.example.mod_test.entity.BaseImpl;
+import com.example.mod_test.base.BaseImpl;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;

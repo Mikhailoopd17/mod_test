@@ -1,4 +1,4 @@
-package com.example.mod_test.entity;
+package com.example.mod_test.base;
 
 import java.util.List;
 

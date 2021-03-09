@@ -1,7 +1,6 @@
 package com.example.mod_test.dto;
 
-import com.example.mod_test.entity.BaseClass;
-import com.example.mod_test.entity.BaseImpl;
+import com.example.mod_test.base.BaseClass;
 import lombok.Getter;
 import lombok.Setter;
 
