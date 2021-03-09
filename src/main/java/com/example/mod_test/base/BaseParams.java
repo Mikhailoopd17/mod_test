@@ -24,12 +24,14 @@ public abstract class BaseParams {
     private LocalDate dateTo;
 
     public void setOrderDir(String orderDir) {
-        switch (orderDir) {
-            case ("asc"):
-                this.orderDir = Sort.Direction.ASC;
-                break;
-            case ("desc"):
-                this.orderDir = Sort.Direction.DESC;
+        if (orderDir != null) {
+            switch (orderDir) {
+                case ("asc"):
+                    this.orderDir = Sort.Direction.ASC;
+                    break;
+                case ("desc"):
+                    this.orderDir = Sort.Direction.DESC;
+            }
         }
     }
 
