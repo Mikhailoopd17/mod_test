@@ -16,5 +16,9 @@ public class UserProfile {
     @JsonProperty("user_id")
     private Long userId;
     private String login;
-    private Integer role;
+    private RoleType role;
+
+    public void setRole(Integer roleId) {
+        this.role = RoleType.fromId(roleId);
+    }
 }

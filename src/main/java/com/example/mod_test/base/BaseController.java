@@ -1,6 +1,9 @@
 package com.example.mod_test.base;
 
 
+import com.example.commons.Exception.UserExceptions;
+import com.example.commons.users.RoleType;
+import com.example.commons.users.UserProfile;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +20,10 @@ public class BaseController<T extends BaseClass, S extends BaseService, P extend
     }
 
     @PostMapping("/by_params")
-    public Page<T> getListByParams(@RequestBody PageParams<P> params) {
+    public Page<T> getListByParams(
+            @RequestHeader(value = "profile", required = false) UserProfile user,
+            @RequestBody PageParams<P> params) {
+        checkRules(user);
         return service.getListByParams(params);
     }
 
@@ -42,5 +48,16 @@ public class BaseController<T extends BaseClass, S extends BaseService, P extend
     public HttpStatus deleteForever(@PathVariable String id) {
         service.deleteForever(id);
         return HttpStatus.OK;
+    }
+
+    private void checkRules(UserProfile userProfile) {
+        if (userProfile == null) {
+            throw new UserExceptions.Forbidden("Доступ запрещен");
+        }
+
+        if (!userProfile.getRole().equals(RoleType.ADMIN)) {
+            throw new UserExceptions.Forbidden("Доступ запрещен");
+        }
+
     }
 }
