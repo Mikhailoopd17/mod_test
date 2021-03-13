@@ -55,9 +55,10 @@ public class BaseController<T extends BaseClass, S extends BaseService, P extend
             throw new UserExceptions.Forbidden("Доступ запрещен");
         }
 
-        if (!userProfile.getRole().equals(RoleType.ADMIN)) {
+        if (!userProfile.getRole().equals(RoleType.ADMIN))  {
             throw new UserExceptions.Forbidden("Доступ запрещен");
         }
+
 
     }
 }
